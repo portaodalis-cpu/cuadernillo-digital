@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuadernillo Digital - Actividad 1</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f1f5f9;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+h1{
+    font-size:32px;
+    margin-bottom:5px;
+}
+
+h2{
+    color:#2563eb;
+    margin-top:0;
+}
+
+.section{
+    margin-top:30px;
+}
+
+input, textarea{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #ccc;
+    margin-top:8px;
+    box-sizing:border-box;
+}
+
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.notice{
+    background:#fef9c3;
+    padding:15px;
+    border-radius:15px;
+    margin-top:20px;
+}
+
+.blue{
+    background:#dbeafe;
+    padding:20px;
+    border-radius:15px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:14px 22px;
+    border-radius:12px;
+    cursor:pointer;
+    margin-top:20px;
+    font-size:16px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.status{
+    margin-top:20px;
+    background:#dcfce7;
+    padding:15px;
+    border-radius:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>ACTIVIDAD 1 · Semana 1</h1>
+<h2>¡Nos vamos de paseo! – Sistemas materiales y mezclas</h2>
+
+<p>
+Competencias: Comunicativa · Pensamiento Lógico · Resolución de Problemas · Ambiental · Desarrollo Personal
+</p>
+
+<div class="grid">
+    <div>
+        <label>Nombre</label>
+        <input type="text" id="nombre">
+    </div>
+
+    <div>
+        <label>Grado</label>
+        <input type="text" id="grado">
+    </div>
+
+    <div>
+        <label>Fecha</label>
+        <input type="date" id="fecha">
+    </div>
+</div>
+
+<div class="notice">
+Los chicos y las chicas de 3er grado eligieron un lugar cerca del río Ozama.
+Prepararon tiendas, ollas, juegos y alimentos, pero olvidaron algo fundamental:
+los galones con agua.
+</div>
+
+<div class="section">
+    <h3>1. Consejos para obtener agua apta para beber</h3>
+
+    <textarea id="consejo1" placeholder="Primer consejo"></textarea>
+
+    <textarea id="consejo2" placeholder="Segundo consejo"></textarea>
+</div>
+
+<div class="section">
+    <h3>2. Describe paso a paso cómo lo harían</h3>
+
+    <textarea id="pasos" placeholder="Describe el procedimiento"></textarea>
+</div>
+
+<div class="section blue">
+    <h3>Situación 1.2 – Una muestra del río</h3>
+
+    <p>
+    Frente a ustedes tienen una muestra extraída del río con agua,
+    hojas, ramitas y arena.
+    </p>
+
+    <label>a. ¿Es un sistema material?</label>
+    <textarea id="sistema"></textarea>
+
+    <label>b. ¿Es una mezcla?</label>
+    <textarea id="mezcla"></textarea>
+
+    <label>c. Otro ejemplo de sistema material heterogéneo</label>
+    <textarea id="ejemplo"></textarea>
+</div>
+
+<button onclick="window.print()">
+Exportar actividad como PDF
+</button>
+
+<div class="status">
+✓ El progreso se guarda automáticamente aunque cierres o recargues la página.
+</div>
+
+</div>
+
+<script>
+
+const fields = [
+'nombre',
+'grado',
+'fecha',
+'consejo1',
+'consejo2',
+'pasos',
+'sistema',
+'mezcla',
+'ejemplo'
+];
+
+fields.forEach(id => {
+
+    const element = document.getElementById(id);
+
+    element.value = localStorage.getItem(id) || '';
+
+    element.addEventListener('input', () => {
+        localStorage.setItem(id, element.value);
+    });
+
+});
+
+</script>
+
+</body>
+</html>
