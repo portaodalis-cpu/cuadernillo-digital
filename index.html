@@ -1,202 +1,376 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cuadernillo Digital - Actividad 1</title>
-
-<style>
-body{
-    font-family: Arial, sans-serif;
-    background:#f1f5f9;
-    margin:0;
-    padding:20px;
-}
-
-.container{
-    max-width:900px;
-    margin:auto;
-    background:white;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.1);
-}
-
-h1{
-    font-size:32px;
-    margin-bottom:5px;
-}
-
-h2{
-    color:#2563eb;
-    margin-top:0;
-}
-
-.section{
-    margin-top:30px;
-}
-
-input, textarea{
-    width:100%;
-    padding:12px;
-    border-radius:12px;
-    border:1px solid #ccc;
-    margin-top:8px;
-    box-sizing:border-box;
-}
-
-textarea{
-    min-height:120px;
-    resize:vertical;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-}
-
-.notice{
-    background:#fef9c3;
-    padding:15px;
-    border-radius:15px;
-    margin-top:20px;
-}
-
-.blue{
-    background:#dbeafe;
-    padding:20px;
-    border-radius:15px;
-}
-
-button{
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:14px 22px;
-    border-radius:12px;
-    cursor:pointer;
-    margin-top:20px;
-    font-size:16px;
-}
-
-button:hover{
-    background:#1d4ed8;
-}
-
-.status{
-    margin-top:20px;
-    background:#dcfce7;
-    padding:15px;
-    border-radius:12px;
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b6b8f">
+  <title>Laboratorio digital - Sistemas hechos por varios materiales</title>
+  <style>
+    :root{
+      --bg:#eef7f9; --panel:#ffffff; --ink:#12303f; --muted:#627783; --line:#d7e7ec;
+      --blue:#0b78a6; --cyan:#00a9d6; --green:#39a866; --amber:#f2a12b; --red:#d94b5b;
+      --violet:#6b63d9; --shadow:0 18px 45px rgba(15,66,82,.14); --radius:18px;
+    }
+    [data-theme="dark"]{
+      --bg:#07171e; --panel:#0e2530; --ink:#eefbff; --muted:#9fb8c4; --line:#21414d;
+      --shadow:0 18px 45px rgba(0,0,0,.34);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:
+      radial-gradient(circle at top left, rgba(0,169,214,.18), transparent 32rem),
+      linear-gradient(180deg,var(--bg),#f7fbfc 70%,var(--bg));color:var(--ink);
+      font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;letter-spacing:0;overflow-x:hidden}
+    [data-theme="dark"] body, body[data-theme="dark"]{background:
+      radial-gradient(circle at top left, rgba(0,169,214,.18), transparent 30rem),
+      linear-gradient(180deg,var(--bg),#0a1d26)}
+    button,input,select,textarea{font:inherit}
+    button{touch-action:manipulation}
+    .app{min-height:100dvh;display:grid;grid-template-rows:auto 1fr}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.78);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--line);padding:10px 12px}
+    [data-theme="dark"] .topbar{background:rgba(7,23,30,.82)}
+    .topbar-inner{max-width:1180px;margin:auto;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900}
+    .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--green));
+      display:grid;place-items:center;color:#fff;box-shadow:0 10px 26px rgba(11,120,166,.28)}
+    .global-meter{min-width:0}
+    .meter-row{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}
+    .bar{height:10px;background:#dcecef;border-radius:99px;overflow:hidden}
+    .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--cyan),var(--violet));transition:width .45s ease}
+    .icon-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;min-width:42px;height:42px;
+      display:inline-grid;place-items:center;box-shadow:0 8px 22px rgba(17,48,63,.08);cursor:pointer}
+    .shell{max-width:1180px;width:100%;margin:0 auto;padding:14px;display:grid;grid-template-columns:290px 1fr;gap:16px}
+    .sidebar{position:sticky;top:74px;align-self:start;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:14px;max-height:calc(100dvh - 92px);overflow:auto}
+    .student-card{background:linear-gradient(135deg,rgba(11,120,166,.12),rgba(57,168,102,.11));border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+    .student-card strong{display:block;margin-bottom:3px}
+    .nav{display:grid;gap:8px}
+    .nav button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;padding:11px 12px;text-align:left;display:grid;
+      grid-template-columns:34px 1fr auto;gap:9px;align-items:center;cursor:pointer}
+    .nav button.active{background:linear-gradient(135deg,rgba(0,169,214,.16),rgba(57,168,102,.12));border-color:rgba(0,169,214,.45)}
+    .nav .num{width:34px;height:34px;border-radius:10px;background:#e5f5f8;color:#075b7e;display:grid;place-items:center;font-weight:900}
+    [data-theme="dark"] .nav .num{background:#123746;color:#a8f0ff}
+    .check{font-weight:900;color:var(--green)}
+    .main{min-width:0;display:grid;gap:16px}
+    .hero,.module,.final-screen{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;min-height:540px}
+    .hero-copy{padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:22px}
+    .eyebrow{color:var(--blue);font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:.08em}
+    h1,h2,h3{margin:0;letter-spacing:0}
+    h1{font-size:clamp(34px,5vw,64px);line-height:1.02}
+    h2{font-size:clamp(24px,4vw,40px);line-height:1.08}
+    h3{font-size:18px}
+    p{line-height:1.55}
+    .lead{font-size:17px;color:var(--muted);max-width:60ch}
+    .hero-art{background:linear-gradient(160deg,#cdeff6,#fff 44%,#d9f4e5);position:relative;min-height:360px;display:grid;place-items:center;padding:20px}
+    [data-theme="dark"] .hero-art{background:linear-gradient(160deg,#12323e,#0e2530 48%,#173329)}
+    .lab-visual{width:min(94%,520px);aspect-ratio:1.05;position:relative}
+    .beaker{position:absolute;border:4px solid #2c5b6c;border-top:0;border-radius:0 0 28px 28px;background:linear-gradient(180deg,transparent 20%,rgba(0,169,214,.18) 21%,rgba(0,169,214,.38));box-shadow:inset 0 -30px 50px rgba(0,169,214,.16)}
+    .b1{left:8%;bottom:8%;width:34%;height:62%}.b2{right:8%;bottom:8%;width:34%;height:72%}
+    .laser{position:absolute;left:5%;right:5%;top:54%;height:8px;background:linear-gradient(90deg,transparent,#ff2c79,#fff,#ff2c79,transparent);filter:drop-shadow(0 0 12px #ff2c79)}
+    .particles i{position:absolute;width:10px;height:10px;border-radius:99px;background:#e13a82;animation:float 4s infinite ease-in-out}
+    .particles i:nth-child(1){left:61%;top:42%}.particles i:nth-child(2){left:67%;top:52%;animation-delay:.5s}.particles i:nth-child(3){left:74%;top:45%;animation-delay:1s}.particles i:nth-child(4){left:70%;top:62%;animation-delay:1.5s}
+    @keyframes float{50%{transform:translateY(-12px)}}
+    .register{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .field{display:grid;gap:6px}
+    .field label,.upload label{font-size:12px;font-weight:900;color:var(--muted);text-transform:uppercase}
+    input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);padding:12px;outline:none}
+    textarea{min-height:96px;resize:vertical}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .primary,.secondary{border:0;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+    .primary{background:linear-gradient(135deg,var(--blue),var(--green));color:#fff;box-shadow:0 14px 30px rgba(11,120,166,.25)}
+    .secondary{background:#eaf4f7;color:#0d5873;border:1px solid var(--line)}
+    [data-theme="dark"] .secondary{background:#12323e;color:#d8f8ff}
+    .module-head{padding:20px;border-bottom:1px solid var(--line);display:grid;gap:10px;background:linear-gradient(135deg,rgba(0,169,214,.11),rgba(57,168,102,.08))}
+    .module-body{padding:16px;display:grid;gap:16px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{border-radius:999px;background:#e8f4f6;color:#0c5d77;padding:7px 10px;font-size:12px;font-weight:800}
+    [data-theme="dark"] .chip{background:#153946;color:#bdefff}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 10px 28px rgba(15,66,82,.08)}
+    .prompt{background:linear-gradient(135deg,rgba(242,161,43,.15),rgba(255,255,255,.0));border-left:5px solid var(--amber)}
+    .choice{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel);cursor:pointer;display:flex;gap:10px;align-items:flex-start;min-height:54px;color:var(--ink);text-transform:none}
+    .choice span:last-child{min-width:0;overflow-wrap:anywhere}
+    .check-choice{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel);cursor:pointer;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:center;min-height:54px;color:var(--ink);font-weight:800}
+    .check-choice input{width:22px;height:22px;margin:0;accent-color:var(--blue)}
+    .check-choice.selected{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,169,214,.16)}
+    .choice.selected{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,169,214,.16)}
+    .choice.good{border-color:var(--green);background:rgba(57,168,102,.12)}.choice.bad{border-color:var(--red);background:rgba(217,75,91,.1)}
+    .pill{display:inline-grid;place-items:center;min-width:28px;height:28px;border-radius:9px;background:#e6f4f7;color:#086280;font-weight:900}
+    .feedback{display:none;border-radius:12px;padding:11px 12px;font-weight:800}
+    .feedback.show{display:block}.ok{background:rgba(57,168,102,.14);color:#23764a}.warn{background:rgba(242,161,43,.16);color:#9a6418}
+    .drag-bank,.drop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+    .drag-item{user-select:none;touch-action:none;border:1px solid var(--line);border-radius:14px;padding:12px;background:linear-gradient(180deg,#fff,#edf7f9);font-weight:900;cursor:grab;text-align:center}
+    [data-theme="dark"] .drag-item{background:linear-gradient(180deg,#12323e,#0e2530)}
+    .drag-item.selected{outline:3px solid rgba(0,169,214,.28)}
+    .drop-zone{min-height:92px;border:2px dashed #a9ced8;border-radius:14px;padding:10px;display:grid;place-items:center;text-align:center;color:var(--muted);background:rgba(0,169,214,.05)}
+    .drop-zone.filled{border-style:solid;background:rgba(57,168,102,.1);color:var(--ink);font-weight:900}
+    .filter-stack{display:grid;grid-template-rows:repeat(4,58px);gap:6px;border-radius:18px;padding:16px;background:linear-gradient(180deg,#def9ff,#bfe9f2);border:1px solid var(--line)}
+    .filter-layer{border:2px dashed rgba(11,120,166,.35);border-radius:12px;display:grid;place-items:center;font-weight:900;color:#0b6481;background:rgba(255,255,255,.48)}
+    .filter-layer.filled[data-key="gasa"]{background:repeating-linear-gradient(45deg,#fff,#fff 5px,#d8edf2 6px,#d8edf2 10px)}
+    .filter-layer.filled[data-key="piedras"]{background:radial-gradient(circle,#65747a 20%,transparent 22%) 0 0/22px 22px,#d8edf2}
+    .filter-layer.filled[data-key="arena"]{background:#e2c77f}.filter-layer.filled[data-key="carbon"]{background:#263238;color:#fff}
+    .water-flow{height:40px;border-radius:14px;background:linear-gradient(90deg,#8b6f4f,#57cde6,#dffaff);position:relative;overflow:hidden}
+    .water-flow::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:slide 2s infinite}
+    @keyframes slide{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+    .timeline{display:grid;gap:10px}.step-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel);display:flex;gap:10px;align-items:center}
+    .step-card button{border:0;background:#e8f4f6;border-radius:10px;width:34px;height:34px;cursor:pointer}
+    .concept-map{overflow:auto;border:1px solid var(--line);border-radius:14px;background:linear-gradient(#fff,#f4fbfd);padding:16px}
+    [data-theme="dark"] .concept-map{background:#0c2029}
+    .map-tree{min-width:620px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:center;text-align:center}
+    .node{border:2px solid #597987;border-radius:12px;padding:10px;background:var(--panel);font-weight:800;min-height:48px;display:grid;place-items:center}
+    .table-wrap{overflow:auto;border-radius:14px;border:1px solid var(--line);max-width:100%;-webkit-overflow-scrolling:touch}
+    table{border-collapse:collapse;width:100%;min-width:620px;background:var(--panel)}
+    th,td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+    th{background:#e9f6f8;color:#064d66}.danger{color:var(--red);font-weight:900}.pass{color:var(--green);font-weight:900}
+    [data-theme="dark"] th{background:#133644;color:#d5f8ff}
+    .lab-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.vessel{border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;background:linear-gradient(180deg,#fff,#e8f8fb)}
+    [data-theme="dark"] .vessel{background:#102b36}.glass{height:120px;border:4px solid #244d5e;border-top:0;border-radius:0 0 22px 22px;margin:10px auto;width:70px;position:relative;background:linear-gradient(180deg,transparent 20%,rgba(0,169,214,.25) 21%)}
+    .beam{position:absolute;left:-22px;right:-22px;top:58%;height:6px;background:#ff2c79;opacity:.2}.vessel.on .beam{opacity:1;box-shadow:0 0 14px #ff2c79}.vessel.colloid.on .glass::after{content:"";position:absolute;inset:18px 16px;border-radius:99px;background:rgba(255,255,255,.56);filter:blur(8px)}
+    .tyndall-scene{position:relative;min-height:260px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#f8fdff,#e9f8fb);overflow:hidden;padding:18px;display:grid;align-items:center}
+    .tyndall-beam{position:absolute;left:58px;right:48px;top:47%;height:24px;background:linear-gradient(90deg,rgba(246,205,77,.18),rgba(246,205,77,.62),rgba(246,205,77,.22));transform:skewY(-4deg);opacity:.45;transition:.25s}
+    .tyndall-scene.on .tyndall-beam{opacity:1;filter:drop-shadow(0 0 16px rgba(246,205,77,.7))}
+    .flashlight{position:absolute;left:16px;top:calc(47% - 15px);width:58px;height:30px;border-radius:8px 18px 18px 8px;background:#263238}
+    .screen{position:absolute;right:18px;top:42px;width:42px;height:176px;border-radius:4px;background:#4a5055}
+    .screen::after{content:"";position:absolute;width:34px;height:54px;border-radius:50%;background:rgba(246,205,77,.36);left:4px;top:58px;opacity:.35}
+    .tyndall-cups{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 56px}
+    .cup-demo{text-align:center;font-weight:900}
+    .cup{height:148px;width:92px;margin:0 auto 8px;border:4px solid #23495a;border-top:6px solid #23495a;border-radius:42% 42% 18px 18px/12px 12px 24px 24px;position:relative;background:linear-gradient(180deg,rgba(255,255,255,.55) 0 22%,rgba(52,183,218,.42) 23% 100%)}
+    .cup.colloid{background:linear-gradient(180deg,rgba(255,255,255,.55) 0 18%,rgba(52,183,218,.50) 19% 100%)}
+    .cup.colloid::after{content:"";position:absolute;inset:24px 18px 10px;border-radius:18px;background:radial-gradient(circle,#ffe36e 0 3px,transparent 4px) 0 0/18px 18px;opacity:.35}
+    .tyndall-scene.on .cup.colloid::before{content:"";position:absolute;left:-28px;right:-28px;top:76px;height:18px;background:rgba(255,228,100,.7);filter:blur(5px)}
+    .matrix{display:grid;grid-template-columns:110px repeat(4,1fr);gap:6px;align-items:stretch}.cell{border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center;min-height:46px;background:var(--panel)}
+    .cell.toggle{cursor:pointer;font-weight:900}.cell.yes{background:rgba(57,168,102,.16)}.cell.no{background:rgba(217,75,91,.12)}
+    .upload{border:2px dashed #a9ced8;border-radius:14px;padding:14px;background:rgba(0,169,214,.05)}
+    .previews{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:10px}
+    .previews img{width:100%;height:110px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+    .footer-actions{position:sticky;bottom:0;background:rgba(255,255,255,.84);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    [data-theme="dark"] .footer-actions{background:rgba(7,23,30,.82)}
+    .score-ring{width:160px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) 0deg,var(--cyan) var(--deg),#dcecef var(--deg));margin:auto}
+    .score-ring div{width:116px;aspect-ratio:1;border-radius:50%;background:var(--panel);display:grid;place-items:center;text-align:center;font-weight:900}
+    .badge{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:8px 10px;background:var(--panel);font-weight:900}
+    .report{display:none}
+    @media(max-width:900px){
+      .shell{grid-template-columns:1fr;padding:10px}.sidebar{position:relative;top:auto;max-height:none;order:2}.main{order:1}.hero{grid-template-columns:1fr}.hero-art{min-height:280px}
+      .register,.grid-2,.grid-3,.lab-row{grid-template-columns:1fr}.topbar-inner{grid-template-columns:auto 1fr auto}.brand span{display:none}.matrix{grid-template-columns:92px repeat(4,minmax(58px,1fr));font-size:12px}.cell{padding:7px}
+    }
+    @media(max-width:520px){
+      body{font-size:16px;background:linear-gradient(180deg,#edf8fb,#f8fcfd)}
+      .topbar{padding:8px 8px}.topbar-inner{gap:8px}.logo{width:46px;height:46px;border-radius:14px}.icon-btn{min-width:48px;height:48px;border-radius:16px}
+      .meter-row{font-size:13px}.score-label-text{display:none}.bar{height:11px}
+      .shell{padding:8px;gap:12px}.main{gap:12px}
+      .hero,.module,.final-screen{border-radius:16px}.module-head{padding:16px 14px}.module-body{padding:12px;gap:12px}
+      h1{font-size:34px}h2{font-size:25px}h3{font-size:20px;line-height:1.15}.eyebrow{font-size:11px}
+      .card{padding:14px;border-radius:16px}.choice,.check-choice{padding:14px;min-height:60px;border-radius:16px}.pill{min-width:34px;height:34px}
+      input,textarea,select{font-size:16px;padding:13px;border-radius:14px}textarea{min-height:112px}
+      .table-wrap table{min-width:0;table-layout:fixed}.table-wrap th,.table-wrap td{padding:10px 8px;font-size:14px;word-break:normal;overflow-wrap:anywhere}.table-wrap th:nth-child(3),.table-wrap td:nth-child(3){width:42%}
+      .tyndall-scene{min-height:230px;padding:12px}.tyndall-cups{gap:10px;margin:0 38px}.cup{width:72px;height:122px}.flashlight{left:10px;width:44px}.screen{right:10px;width:32px;height:148px}
+      .footer-actions{position:relative;padding:12px}.badge{width:100%;justify-content:center}.primary,.secondary{min-height:44px}
+      .sidebar{padding:10px}.nav button{grid-template-columns:32px 1fr auto;padding:10px}.nav .num{width:32px;height:32px}
+    }
+    @media print{
+      body{background:#fff;color:#111}.topbar,.sidebar,.footer-actions,.no-print{display:none!important}.shell{display:block;max-width:none;padding:0}.main>*:not(.report){display:none!important}.report{display:block!important;font-size:12px}.card{box-shadow:none;break-inside:avoid}.report img{max-width:160px;max-height:120px}
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="container">
-
-<h1>ACTIVIDAD 1 · Semana 1</h1>
-<h2>¡Nos vamos de paseo! – Sistemas materiales y mezclas</h2>
-
-<p>
-Competencias: Comunicativa · Pensamiento Lógico · Resolución de Problemas · Ambiental · Desarrollo Personal
-</p>
-
-<div class="grid">
-    <div>
-        <label>Nombre</label>
-        <input type="text" id="nombre">
+<div class="app" id="appRoot">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><div class="logo">Lab</div><span>Sistemas materiales</span></div>
+      <div class="global-meter">
+        <div class="meter-row"><span id="progressLabel">Progreso 0%</span><span id="scoreLabel"><span class="score-label-text">Código: </span>--</span></div>
+        <div class="bar"><span id="progressBar"></span></div>
+      </div>
+      <button class="icon-btn" id="themeBtn" title="Modo oscuro">◐</button>
     </div>
-
-    <div>
-        <label>Grado</label>
-        <input type="text" id="grado">
-    </div>
-
-    <div>
-        <label>Fecha</label>
-        <input type="date" id="fecha">
-    </div>
+  </header>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="student-card">
+        <strong id="studentName">Estudiante sin registrar</strong>
+        <small id="studentMeta">Completa la pantalla inicial</small>
+      </div>
+      <nav class="nav" id="nav"></nav>
+    </aside>
+    <main class="main">
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <div>
+            <div class="eyebrow">Cuadernillo digital interactivo</div>
+            <h1>Sistemas hechos por varios materiales</h1>
+            <p class="lead">Laboratorio educativo para Ciencias Físicas de 3er grado: mezclas, filtración, potabilización, efecto Tyndall, soluciones, destilación, cromatografía y metacognición final.</p>
+          </div>
+          <div class="register">
+            <div class="field"><label>Nombre</label><input id="nameInput" placeholder="Nombre del estudiante"></div>
+            <div class="field"><label>Sección</label><select id="sectionInput"><option value="">Selecciona</option><option>3ro A</option><option>3ro B</option><option>3ro C</option></select></div>
+            <div class="field"><label>Fecha</label><input id="dateInput" type="date"></div>
+          </div>
+          <div class="actions">
+            <button class="primary" id="startBtn">Entrar al laboratorio</button>
+            <button class="secondary" id="soundBtn">Sonido: no</button>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Visual de laboratorio con efecto Tyndall">
+          <div class="lab-visual">
+            <div class="beaker b1"><div class="beam" style="opacity:.18"></div></div>
+            <div class="beaker b2"><div class="laser"></div></div>
+            <div class="particles"><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+      </section>
+      <section class="module" id="moduleView"></section>
+      <section class="final-screen" id="finalView" hidden></section>
+      <section class="report" id="printReport"></section>
+    </main>
+  </div>
 </div>
-
-<div class="notice">
-Los chicos y las chicas de 3er grado eligieron un lugar cerca del río Ozama.
-Prepararon tiendas, ollas, juegos y alimentos, pero olvidaron algo fundamental:
-los galones con agua.
-</div>
-
-<div class="section">
-    <h3>1. Consejos para obtener agua apta para beber</h3>
-
-    <textarea id="consejo1" placeholder="Primer consejo"></textarea>
-
-    <textarea id="consejo2" placeholder="Segundo consejo"></textarea>
-</div>
-
-<div class="section">
-    <h3>2. Describe paso a paso cómo lo harían</h3>
-
-    <textarea id="pasos" placeholder="Describe el procedimiento"></textarea>
-</div>
-
-<div class="section blue">
-    <h3>Situación 1.2 – Una muestra del río</h3>
-
-    <p>
-    Frente a ustedes tienen una muestra extraída del río con agua,
-    hojas, ramitas y arena.
-    </p>
-
-    <label>a. ¿Es un sistema material?</label>
-    <textarea id="sistema"></textarea>
-
-    <label>b. ¿Es una mezcla?</label>
-    <textarea id="mezcla"></textarea>
-
-    <label>c. Otro ejemplo de sistema material heterogéneo</label>
-    <textarea id="ejemplo"></textarea>
-</div>
-
-<button onclick="window.print()">
-Exportar actividad como PDF
-</button>
-
-<div class="status">
-✓ El progreso se guarda automáticamente aunque cierres o recargues la página.
-</div>
-
-</div>
-
 <script>
-
-const fields = [
-'nombre',
-'grado',
-'fecha',
-'consejo1',
-'consejo2',
-'pasos',
-'sistema',
-'mezcla',
-'ejemplo'
+const DATA = [
+  {id:"a1", pts:7, week:"Semana 1", title:"Nos vamos de paseo", tag:"Sistemas materiales y mezclas", comps:["Comunicativa","Pensamiento lógico","Ambiental","Desarrollo personal"]},
+  {id:"a2", pts:8, week:"Semana 1", title:"Filtración experimental", tag:"Separación de fases", comps:["Científica y tecnológica","Resolución de problemas","Comunicativa"]},
+  {id:"a3", pts:8, week:"Semana 2", title:"Potabilización del agua", tag:"Procesos físicos y químicos", comps:["Científica y tecnológica","Ética ciudadana","Ambiental"]},
+  {id:"a4", pts:8, week:"Semana 2", title:"Calidad del agua", tag:"Coagulación-floculación", comps:["Resolución de problemas","Ambiental y salud","Pensamiento crítico"]},
+  {id:"a5", pts:8, week:"Semana 3", title:"Efecto Tyndall", tag:"Coloides y soluciones", comps:["Científica y tecnológica","Observación sistemática"]},
+  {id:"a6", pts:8, week:"Semana 3", title:"Coloides, suspensiones y antibióticos", tag:"Tamaño de partículas", comps:["Ambiental y salud","Comunicativa"]},
+  {id:"a7", pts:8, week:"Semana 4", title:"Soluciones", tag:"Disolución y modelo corpuscular", comps:["Modelos científicos","Resolución de problemas"]},
+  {id:"a8", pts:7, week:"Semana 4", title:"Agua envasada, destilación y cromatografía", tag:"Métodos de separación", comps:["Consumidor crítico","Científica y tecnológica"]},
+  {id:"ae", pts:8, week:"Cierre", title:"Evaluación final y metacognición", tag:"Integración de la secuencia", comps:["Todas las competencias"]}
 ];
+const STORAGE_KEY = "labSistemasState_v2";
+const state = JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
+state.profile ||= {name:"",section:"",date:new Date().toISOString().slice(0,10)};
+state.answers ||= {}; state.uploads ||= {}; state.current ||= "a1"; state.sound ||= false; state.theme ||= "light";
+document.documentElement.dataset.theme = state.theme;
 
-fields.forEach(id => {
-
-    const element = document.getElementById(id);
-
-    element.value = localStorage.getItem(id) || '';
-
-    element.addEventListener('input', () => {
-        localStorage.setItem(id, element.value);
-    });
-
-});
-
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const save = () => { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); updateProgress(); };
+const ans = (k,v) => { state.answers[k]=v; save(); };
+const get = (k,d="") => state.answers[k] ?? d;
+const digit = {1:"༡",2:"༢",3:"༣",4:"༤",5:"༥",6:"༦",7:"༧",8:"༨",9:"༩"};
+function codeScore(n){ if(n<=0) return "--"; const tens=Math.floor(n/10), ones=n%10; const tenMap={1:"௧௰",2:"௨௰",3:"௩௰",4:"௪௰",5:"五௰",6:"六௰",7:"七௰"}; if(n<10) return digit[n]; return (tenMap[tens]||"")+(ones?digit[ones]:""); }
+function beep(){ if(!state.sound) return; const ctx=new (window.AudioContext||window.webkitAudioContext)(); const o=ctx.createOscillator(), g=ctx.createGain(); o.frequency.value=620; g.gain.value=.035; o.connect(g); g.connect(ctx.destination); o.start(); setTimeout(()=>{o.stop();ctx.close()},90); }
+function moduleKeys(id){ return Object.keys(state.answers).filter(k=>k.startsWith(id+"_")); }
+function completion(id){ const total={a1:5,a2:5,a3:5,a4:5,a5:5,a6:5,a7:5,a8:5,ae:5}[id]; return Math.min(1,moduleKeys(id).filter(k=>String(state.answers[k]).length>0).length/total); }
+function pointsFor(id){
+  const m=DATA.find(x=>x.id===id), p=m.pts; let score=0;
+  if(id==="a1"){ score += textOk("a1_advice")*2 + (get("a1_system")==="si"?1:0) + (get("a1_mix")==="heterogenea"?2:0) + textOk("a1_example")*2; }
+  if(id==="a2"){ score += arrayEq(get("a2_filter",[]),["arena","carbon","piedras","gasa"])?3:0; score += textOk("a2_steps")*2 + (get("a2_potable")==="no"?2:0) + textOk("a2_care")*1; }
+  if(id==="a3"){ score += mapScore(["heterogeneos","una fase","homogeneos"], get("a3_map",[]),3); score += (arrayEq(get("a3_order",[]),["Captación","Coagulación","Decantación","Filtración","Cloración","Alcalinización","Distribución"])?3:0); score += textOk("a3_chlorine")*2; }
+  if(id==="a4"){ score += (get("a4_potable")==="no"?2:0) + selectedCount("a4_flags",["turbidez","cloro","hierro"],3) + textOk("a4_treatment")*2 + textOk("a4_conclusion")*1; }
+  if(id==="a5"){ score += (get("a5_prediction")==="leche_tiza"?2:0) + (get("a5_laser")==="coloide"?2:0) + (get("a5_milk")==="coloide"?1:0) + textOk("a5_observation")*1 + textOk("a5_tyndall")*2; }
+  if(id==="a6"){ score += (get("a6_antibiotic")==="suspension"?2:0) + selectedCount("a6_class",["jugo:suspension","leche:coloide","agua_sal:solucion"],3) + textOk("a6_sea")*2 + textOk("a6_examples")*1; }
+  if(id==="a7"){ score += matrixScore()*4 + textOk("a7_tea")*2 + textOk("a7_model")*2; }
+  if(id==="a8"){ score += textOk("a8_label")*2 + (arrayEq(get("a8_distill",[]),["Evaporación","Condensación","Recolección"])?2:0) + textOk("a8_chroma")*2 + textOk("a8_criteria")*1; }
+  if(id==="ae"){ score += (get("ae_q1")==="a"?2:0) + (get("ae_q2")==="b"?2:0) + (arrayEq(get("ae_order",[]),["Coagulación-floculación","Sedimentación","Filtración","Desinfección"])?2:0) + textOk("ae_meta")*2; }
+  return Math.min(p,score);
+}
+function textOk(k){ return (get(k,"").trim().length>24)?1:0; }
+function arrayEq(a,b){ return Array.isArray(a) && a.length===b.length && a.every((v,i)=>v===b[i]); }
+function mapScore(correct, got, max){ return correct.reduce((s,v,i)=>s+(got&&got[i]===v?1:0),0)*(max/correct.length); }
+function selectedCount(k, correct, max){ const arr=get(k,[]); return correct.filter(x=>arr.includes(x)).length*(max/correct.length); }
+function matrixScore(){ const c={"Azúcar|Agua":"yes","Tiza|Agua":"no","Aceite|Agua":"no","Aceite|Nafta":"yes","Arena|Vinagre":"no","Grasa|Quitaesmalte":"yes"}; const m=get("a7_matrix",{}); return Object.keys(c).filter(k=>m[k]===c[k]).length/Object.keys(c).length; }
+function totalScore(){ return Math.round(DATA.reduce((s,m)=>s+pointsFor(m.id),0)); }
+function updateProgress(){
+  const done = DATA.reduce((s,m)=>s+completion(m.id),0)/DATA.length;
+  $("#progressBar").style.width = Math.round(done*100)+"%";
+  $("#progressLabel").textContent = "Progreso "+Math.round(done*100)+"%";
+  $("#scoreLabel").innerHTML = '<span class="score-label-text">Código: </span>'+codeScore(totalScore());
+  $("#studentName").textContent = state.profile.name || "Estudiante sin registrar";
+  $("#studentMeta").textContent = [state.profile.section,state.profile.date].filter(Boolean).join(" · ") || "Completa la pantalla inicial";
+  renderNav();
+}
+function renderNav(){
+  $("#nav").innerHTML = DATA.map((m,i)=>`<button class="${state.current===m.id?"active":""}" data-go="${m.id}"><span class="num">${i+1}</span><span><strong>${m.title}</strong><br><small>${m.week}</small></span><span class="check">${completion(m.id)>=1?"✓":Math.round(completion(m.id)*100)+"%"}</span></button>`).join("")+
+  `<button data-final><span class="num">R</span><span><strong>Resultados</strong><br><small>PDF y desempeño</small></span><span class="check">${codeScore(totalScore())}</span></button>`;
+  $$("[data-go]").forEach(b=>b.onclick=()=>{ state.current=b.dataset.go; save(); renderModule(); window.scrollTo(0,0); });
+  $("[data-final]").onclick=()=>showFinal();
+}
+function shell(m,body){ return `<div class="module-head"><div class="eyebrow">${m.week} · ${m.tag}</div><h2>${m.title}</h2><div class="chips">${m.comps.map(c=>`<span class="chip">${c}</span>`).join("")}<span class="chip">${m.pts} puntos</span></div></div><div class="module-body">${body}</div><div class="footer-actions"><button class="secondary" id="prevBtn">Anterior</button><span class="badge">Puntos del módulo: ${Math.round(pointsFor(m.id))}/${m.pts}</span><button class="primary" id="nextBtn">Siguiente</button></div>`; }
+function renderModule(){
+  $("#home").hidden=true; $("#finalView").hidden=true; $("#moduleView").hidden=false;
+  const m=DATA.find(x=>x.id===state.current);
+  $("#moduleView").innerHTML = shell(m, views[m.id]());
+  hydrateCommon(m.id); updateProgress();
+  const idx=DATA.findIndex(x=>x.id===m.id);
+  $("#prevBtn").onclick=()=>{ state.current=DATA[Math.max(0,idx-1)].id; save(); renderModule(); };
+  $("#nextBtn").onclick=()=>{ if(idx===DATA.length-1) showFinal(); else {state.current=DATA[idx+1].id; save(); renderModule();} };
+}
+const views = {
+a1:()=>`
+<div class="card prompt"><h3>Situación: paseo cerca del río Ozama</h3><p>El grupo olvidó los galones con agua. Tienen envases vacíos y una muestra de agua con hojas, ramitas y arena. El reto es decidir qué hacer sin confundir agua clara con agua potable.</p></div>
+<div class="grid-2"><div class="card"><h3>Consejos científicos</h3><textarea data-k="a1_advice" placeholder="Escribe al menos dos consejos y pasos concretos.">${get("a1_advice")}</textarea></div>
+<div class="card"><h3>Inspector de muestra</h3><p>Decide y justifica en tu cuaderno digital.</p>${choices("a1_system",[["si","Sí, es un sistema material"],["no","No es un sistema material"]])}${choices("a1_mix",[["homogenea","Mezcla homogénea"],["heterogenea","Mezcla heterogénea"],["pura","Sustancia pura"]])}</div></div>
+<div class="card"><h3>Otro sistema heterogéneo</h3><textarea data-k="a1_example" placeholder="Describe fases, componentes y cómo lo dibujarías.">${get("a1_example")}</textarea>${upload("a1")}</div>`,
+a2:()=>`
+<div class="grid-2"><div class="card"><h3>Simulador táctil de filtro</h3><p>Arrastra o toca una tarjeta y luego una capa. Construye el filtro desde arriba hacia abajo.</p><div class="drag-bank">${dragItems(["arena","carbon","piedras","gasa"])}</div><div class="filter-stack" id="filterStack">${[0,1,2,3].map(i=>`<div class="filter-layer drop-zone" data-drop="a2_filter" data-index="${i}">${(get("a2_filter",[])[i]||"Capa "+(i+1))}</div>`).join("")}</div><div class="water-flow"></div></div>
+<div class="card"><h3>Plan experimental</h3><textarea data-k="a2_steps" placeholder="Pasos, materiales y qué se obtiene en cada etapa.">${get("a2_steps")}</textarea><textarea data-k="a2_care" placeholder="Cuidados durante la filtración.">${get("a2_care")}</textarea><p>Después de filtrar, ¿el líquido ya es potable?</p>${choices("a2_potable",[["si","Sí"],["no","No"]])}</div></div>${upload("a2")}`,
+a3:()=>`
+<div class="card"><h3>Red conceptual interactiva</h3><div class="concept-map"><div class="map-tree"><div></div><div class="node">Sistemas materiales</div><div></div><div class="node">pueden ser</div><div></div><div class="node">pueden ser</div><div class="node drop-zone" data-drop="a3_map" data-index="2">${get("a3_map",[])[2]||"Arrastra: Homogéneos"}</div><div class="node drop-zone" data-drop="a3_map" data-index="1">${get("a3_map",[])[1]||"Arrastra: una fase"}</div><div class="node drop-zone" data-drop="a3_map" data-index="0">${get("a3_map",[])[0]||"Arrastra: Heterogéneos"}</div><div class="node">agua con minerales disueltos</div><div></div><div class="node">agua con arena, hojas y ramitas</div></div></div><div class="drag-bank">${dragItems(["homogeneos","heterogeneos","una fase"])}</div></div>
+<div class="grid-2"><div class="card"><h3>Ordena la potabilización</h3><div class="timeline" data-order="a3_order">${orderCards("a3_order",["Captación","Coagulación","Decantación","Filtración","Cloración","Alcalinización","Distribución"])}</div></div><div class="card"><h3>Cloración y normativa RD</h3><textarea data-k="a3_chlorine" placeholder="Explica desinfección, cloro residual 0.2 a 0.6 mg/l y por qué importa.">${get("a3_chlorine")}</textarea><div class="card prompt">La cloración elimina bacterias nocivas y deja un residual que protege la red de distribución.</div></div></div>`,
+a4:()=>`
+<div class="card"><h3>Inspector científico de potabilidad</h3><p>Compara la muestra con la referencia. La tabla no marca la respuesta: debes decidir qué parámetros están fuera de lo recomendado o del máximo admisible.</p><div class="table-wrap"><table><tr><th>Parámetro</th><th>Muestra</th><th>Referencia</th></tr>${waterRows()}</table></div></div>
+<div class="grid-2"><div class="card"><h3>Marca parámetros problemáticos</h3>${checks("a4_flags",[["color","Color"],["turbidez","Turbidez"],["cloro","Cloro residual"],["hierro","Hierro"],["nitratos","Nitratos"]])}<p>Conclusión sobre la muestra:</p>${choices("a4_potable",[["si","Puede considerarse potable"],["no","No puede considerarse potable todavía"]])}</div><div class="card"><h3>Tratamiento y conclusión</h3><textarea data-k="a4_treatment" placeholder="Propón el tratamiento adicional necesario sin copiar la tabla.">${get("a4_treatment")}</textarea><textarea data-k="a4_conclusion" placeholder="Escribe tu conclusión fundamentada con evidencias.">${get("a4_conclusion")}</textarea></div></div>`,
+a5:()=>`
+<div class="card prompt"><h3>Seguridad</h3><p>No mires directamente el rayo ni lo apuntes a los ojos. En el laboratorio digital, activa el haz para comparar agua pura, suspensión y leche.</p></div>
+<div class="grid-2"><div class="card"><h3>Predicción</h3><p>Antes de activar el haz, marca dónde crees que se verá mejor el camino de la luz.</p>${choices("a5_prediction",[["agua","Agua pura"],["leche_tiza","Tiza/fécula y leche"],["todos","Todos por igual"]])}<h3>Registro de observación</h3><textarea data-k="a5_observation" placeholder="Describe qué ves en agua, en tiza/fécula y en leche. No basta con marcar: explica la evidencia.">${get("a5_observation")}</textarea><p>Según tu observación, ¿qué sistema dispersa más el haz?</p>${choices("a5_laser",[["solucion","Solución"],["coloide","Coloide o suspensión"],["puro","Agua pura"]])}${choices("a5_milk",[["coloide","La leche se comporta como coloide"],["solucion","La leche se comporta como solución"]])}</div><div class="card"><h3>Simulador Tyndall</h3><div class="tyndall-scene" data-tyndall><div class="tyndall-beam"></div><div class="flashlight"></div><div class="tyndall-cups"><div class="cup-demo"><div class="cup"></div><span>Agua</span></div><div class="cup-demo"><div class="cup colloid"></div><span>Coloidal</span></div></div><div class="screen"></div></div><button class="secondary" data-tyndall-btn>Activar haz</button><textarea data-k="a5_tyndall" placeholder="Define el efecto Tyndall con tus palabras y menciona qué sistemas lo presentan.">${get("a5_tyndall")}</textarea></div></div>${upload("a5")}`,
+a6:()=>`
+<div class="grid-2"><div class="card"><h3>Antibiótico en suspensión</h3><p>El envase dice: “Agitar enérgicamente antes de usar”. Clasifica y luego explica con tus palabras.</p>${choices("a6_antibiotic",[["solucion","Solución"],["suspension","Suspensión"],["coloide","Coloide"]])}<textarea data-k="a6_examples" placeholder="Justifica tu elección y da dos ejemplos heterogéneos con fases y componentes.">${get("a6_examples")}</textarea></div><div class="card"><h3>Clasificación visual</h3>${checks("a6_class",[["jugo:suspension","Jugo con pulpa"],["leche:coloide","Leche"],["agua_sal:solucion","Agua salada"],["aire:suspension","Aire limpio"]])}<textarea data-k="a6_sea" placeholder="Explica el polvillo blanco del mar, solución y método para separar componentes.">${get("a6_sea")}</textarea></div></div><div class="card"><h3>Banco de conceptos</h3><div class="grid-3"><div class="card"><strong>Solución</strong><p>&lt; 1 nm · una fase · no Tyndall</p></div><div class="card"><strong>Coloide</strong><p>1 a 100 nm · dispersa luz · no sedimenta fácil</p></div><div class="card"><strong>Suspensión</strong><p>&gt; 100 nm · puede sedimentar · filtrable</p></div></div></div>`,
+a7:()=>`
+<div class="card"><h3>Matriz de solubilidad táctil</h3><p>Toca cada casilla para alternar: se disuelve / no se disuelve.</p><div class="matrix">${matrix()}</div></div>
+<div class="grid-2"><div class="card"><h3>Infusión de té</h3><textarea data-k="a7_tea" placeholder="¿Qué se forma al preparar té? ¿Cuántas fases tiene cuando está listo?">${get("a7_tea")}</textarea></div><div class="card"><h3>Modelo cinético corpuscular</h3><textarea data-k="a7_model" placeholder="Explica por qué algunas sustancias se disuelven y otras no.">${get("a7_model")}</textarea>${upload("a7")}</div></div>`,
+a8:()=>`
+<div class="grid-2"><div class="card"><h3>Inspector de etiqueta de agua</h3><textarea data-k="a8_label" placeholder="Además de agua, ¿qué componentes aparecen? ¿Es solución o agua pura?">${get("a8_label")}</textarea><textarea data-k="a8_criteria" placeholder="Criterios para elegir marcas: sodio, composición, salud, contexto.">${get("a8_criteria")}</textarea></div><div class="card"><h3>Destilación simple</h3><div class="timeline" data-order="a8_distill">${orderCards("a8_distill",["Evaporación","Condensación","Recolección"])}</div><textarea data-k="a8_chroma" placeholder="Explica cromatografía: fase móvil, fase fija y pigmentos a distintas alturas.">${get("a8_chroma")}</textarea></div></div>${upload("a8")}`,
+ae:()=>`
+<div class="grid-2"><div class="card"><h3>Evaluación individual</h3><p>¿Cuál afirmación es incorrecta?</p>${choices("ae_q1",[["a","Por filtración podemos separar el agua de la sal disuelta"],["b","El agua potable no es agua pura"],["c","Una solución no muestra el haz de luz"]])}<p>El azúcar se disuelve en agua porque:</p>${choices("ae_q2",[["a","Las moléculas se rompen"],["b","Son atraídas por las moléculas de agua"],["c","Pasa a estado líquido"],["d","Se mete dentro de las moléculas de agua"]])}</div><div class="card"><h3>Proceso final</h3><div class="timeline" data-order="ae_order">${orderCards("ae_order",["Filtración","Coagulación-floculación","Desinfección","Sedimentación"])}</div><textarea data-k="ae_meta" placeholder="Vuelve a tus consejos iniciales: ¿qué cambiarías, qué aprendiste, qué aportarías a un compañero?">${get("ae_meta")}</textarea></div></div>${upload("ae")}`
+};
+function choices(k,opts){ return `<div data-choice="${k}">${opts.map(([v,t])=>`<div class="choice ${get(k)===v?"selected":""}" data-val="${v}"><span class="pill">${get(k)===v?"✓":"·"}</span><span>${t}</span></div>`).join("")}</div>`; }
+function checks(k,opts){ const arr=get(k,[]); return `<div data-checks="${k}">${opts.map(([v,t])=>`<div class="check-choice ${arr.includes(v)?"selected":""}" data-check="${v}"><input type="checkbox" value="${v}" ${arr.includes(v)?"checked":""} aria-label="${t}"><span>${t}</span></div>`).join("")}</div>`; }
+function dragItems(items){ return items.map(x=>`<div class="drag-item" data-drag="${x}">${label(x)}</div>`).join(""); }
+function label(x){ return ({carbon:"carbón",homogeneos:"Sistemas homogéneos",heterogeneos:"Sistemas heterogéneos"}[x]||x).replace("_"," "); }
+function orderCards(k,items){ const arr=get(k,items); return arr.map((x,i)=>`<div class="step-card" data-step="${x}"><span class="pill">${i+1}</span><strong>${x}</strong><span style="flex:1"></span><button data-up title="Subir">↑</button><button data-down title="Bajar">↓</button></div>`).join(""); }
+function waterRows(){ const rows=[["Color","3 Pt-Co","≤1 recomendado; máx. 15"],["Turbidez","4.2 NTU","≤1 recomendado; máx. 5"],["pH","7.2","6.5-8.5"],["Cloro residual","0 mg/l","0.2-0.5 mg/l"],["Cloruros","35 mg/l","~25; máx. 250"],["Hierro","0.45 mg/l","máx. 0.3"],["Nitratos","18 mg/l","~25; máx. 50"]]; return rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join(""); }
+function matrix(){ const sol=["Tiza","Azúcar","Grasa","Aceite","Arena"], solv=["Agua","Nafta","Quitaesmalte","Vinagre"], m=get("a7_matrix",{}); let html=`<div class="cell"></div>${solv.map(s=>`<div class="cell"><strong>${s}</strong></div>`).join("")}`; sol.forEach(a=>{ html+=`<div class="cell"><strong>${a}</strong></div>`; solv.forEach(b=>{ const key=a+"|"+b, v=m[key]||""; html+=`<div class="cell toggle ${v}" data-matrix="${key}">${v==="yes"?"✓":v==="no"?"✗":"?"}</div>`; }); }); return html; }
+function upload(id){ const imgs=state.uploads[id]||[]; return `<div class="upload"><label>Adjuntar evidencia, captura o foto de dibujo</label><input type="file" accept="image/*" multiple data-upload="${id}"><div class="previews">${imgs.map(src=>`<img src="${src}" alt="Evidencia adjunta">`).join("")}</div></div>`; }
+function hydrateCommon(id){
+  $$("[data-k]").forEach(el=>{ el.oninput=()=>ans(el.dataset.k,el.value); });
+  $$("[data-choice]").forEach(w=>w.querySelectorAll(".choice").forEach(c=>c.onclick=()=>{ ans(w.dataset.choice,c.dataset.val); beep(); renderModule(); }));
+  $$("[data-checks]").forEach(w=>w.querySelectorAll(".check-choice").forEach(row=>row.onclick=e=>{ if(e.target.tagName!=="INPUT") row.querySelector("input").checked=!row.querySelector("input").checked; ans(w.dataset.checks,[...w.querySelectorAll("input:checked")].map(x=>x.value)); beep(); renderModule(); }));
+  $$("[data-order]").forEach(w=>w.querySelectorAll("button").forEach(btn=>btn.onclick=()=>{ const k=w.dataset.order, card=btn.closest(".step-card"), arr=[...w.querySelectorAll(".step-card")].map(x=>x.dataset.step), i=arr.indexOf(card.dataset.step), j=btn.hasAttribute("data-up")?i-1:i+1; if(j>=0&&j<arr.length){ [arr[i],arr[j]]=[arr[j],arr[i]]; ans(k,arr); renderModule(); }}));
+  $$("[data-matrix]").forEach(c=>c.onclick=()=>{ const m=get("a7_matrix",{}), cur=m[c.dataset.matrix]; m[c.dataset.matrix]=cur==="yes"?"no":cur==="no"?"":"yes"; ans("a7_matrix",m); renderModule(); });
+  $$("[data-vessel] button").forEach(b=>b.onclick=()=>b.closest("[data-vessel]").classList.toggle("on"));
+  $$("[data-tyndall-btn]").forEach(b=>b.onclick=()=>{ const scene=b.previousElementSibling; scene.classList.toggle("on"); b.textContent=scene.classList.contains("on")?"Apagar haz":"Activar haz"; });
+  hydrateDrag();
+  $$("[data-upload]").forEach(inp=>inp.onchange=e=>{ const id=e.target.dataset.upload; [...e.target.files].slice(0,4).forEach(file=>{ const r=new FileReader(); r.onload=()=>{ state.uploads[id] ||= []; state.uploads[id].push(r.result); save(); renderModule(); }; r.readAsDataURL(file); }); });
+}
+function hydrateDrag(){
+  let picked=null;
+  $$("[data-drag]").forEach(el=>{ el.onclick=()=>{ picked=el.dataset.drag; $$(".drag-item").forEach(x=>x.classList.toggle("selected",x===el)); }; el.onpointerdown=()=>{ picked=el.dataset.drag; }; });
+  $$("[data-drop]").forEach(z=>z.onclick=()=>dropTo(z));
+  function dropTo(z){ if(!picked) return; const k=z.dataset.drop, arr=[...(get(k,[]))]; arr[+z.dataset.index]=picked; ans(k,arr); picked=null; renderModule(); }
+}
+function showFinal(){
+  $("#home").hidden=true; $("#moduleView").hidden=true; $("#finalView").hidden=false; state.current="final"; save();
+  const total=totalScore(), pct=Math.round(DATA.reduce((s,m)=>s+completion(m.id),0)/DATA.length*100), deg=Math.round(total/70*360);
+  $("#finalView").innerHTML=`<div class="module-head"><div class="eyebrow">Resultados finales</div><h2>Reporte del laboratorio</h2></div><div class="module-body"><div class="grid-2"><div class="card"><div class="score-ring" style="--deg:${deg}deg"><div><span>Código</span><br><strong style="font-size:30px">${codeScore(total)}</strong></div></div><p style="text-align:center">El código representa la puntuación real del instrumento de 70 puntos sin mostrar la nota tradicional.</p></div><div class="card"><h3>Desempeño</h3><p><strong>${pct}%</strong> completado · <strong>${DATA.filter(m=>completion(m.id)>=1).length}/${DATA.length}</strong> actividades completas.</p><div class="chips">${DATA.map(m=>`<span class="chip">${m.title}: ${Math.round(pointsFor(m.id))}/${m.pts}</span>`).join("")}</div><div class="actions" style="margin-top:16px"><button class="primary" id="pdfBtn">Exportar PDF</button><button class="secondary" id="resetBtn">Reiniciar progreso</button></div></div></div></div>`;
+  $("#pdfBtn").onclick=printReport; $("#resetBtn").onclick=()=>{ if(confirm("¿Borrar progreso guardado?")){ localStorage.removeItem(STORAGE_KEY); localStorage.removeItem("labSistemasState"); location.reload(); } };
+}
+function printReport(){
+  $("#printReport").innerHTML=`<h1>Reporte - Sistemas hechos por varios materiales</h1><p><strong>Estudiante:</strong> ${state.profile.name} · <strong>Sección:</strong> ${state.profile.section} · <strong>Fecha:</strong> ${state.profile.date}</p><p><strong>Progreso:</strong> ${$("#progressLabel").textContent} · <strong>Código de puntuación:</strong> ${codeScore(totalScore())}</p>${DATA.map(m=>`<div class="card"><h2>${m.title}</h2><p><strong>${m.tag}</strong> · ${Math.round(pointsFor(m.id))}/${m.pts} puntos</p>${moduleKeys(m.id).map(k=>`<p><strong>${k.replace(m.id+"_","")}:</strong> ${escapeHtml(JSON.stringify(state.answers[k]))}</p>`).join("")}${(state.uploads[m.id]||[]).map(src=>`<img src="${src}">`).join("")}</div>`).join("")}`;
+  setTimeout(()=>window.print(),100);
+}
+function escapeHtml(s){ return s.replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m])); }
+$("#nameInput").value=state.profile.name; $("#sectionInput").value=state.profile.section; $("#dateInput").value=state.profile.date;
+$("#startBtn").onclick=()=>{ state.profile={name:$("#nameInput").value.trim(),section:$("#sectionInput").value,date:$("#dateInput").value}; save(); renderModule(); };
+$("#soundBtn").onclick=()=>{ state.sound=!state.sound; $("#soundBtn").textContent="Sonido: "+(state.sound?"sí":"no"); save(); beep(); };
+$("#themeBtn").onclick=()=>{ state.theme=state.theme==="dark"?"light":"dark"; document.documentElement.dataset.theme=state.theme; save(); };
+$("#soundBtn").textContent="Sonido: "+(state.sound?"sí":"no");
+if(state.profile.name) renderModule(); else { $("#moduleView").hidden=true; updateProgress(); }
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  navigator.serviceWorker.register("./sw.js").catch(()=>{});
+}
 </script>
-
 </body>
 </html>
